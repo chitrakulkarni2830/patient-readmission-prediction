@@ -20,6 +20,7 @@ A machine learning project to predict the probability of a patient being readmit
     - `features.py`: Creates comorbidity features and performs one-hot encoding.
     - `modeling.py`: Trains Logistic Regression and Random Forest models.
     - `create_db.py`: Loads data into a SQLite database for querying.
+    - `run_10_queries.py`: Executes 10 SQL queries to generate insights from the database.
 - `output/`: Contains model evaluation reports and feature importance plots.
 
 ## How to Run
@@ -37,6 +38,7 @@ A machine learning project to predict the probability of a patient being readmit
 3. Run SQL analysis:
    ```bash
    python3 src/create_db.py
+   python3 src/run_10_queries.py
    ```
 
 ## Author
