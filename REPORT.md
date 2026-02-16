@@ -1,7 +1,7 @@
 # Hospital Readmission prediction - Project Report
 
 ## 1. Executive Summary
-This project aims to optimize hospital patient flow by predicting the likelihood of a patient being readmitted within 30 days of discharge. Using the "Diabetes 130-US hospitals" dataset, we developed machine learning models to identify high-risk patients. Our analysis reveals that **number of inpatient visits**, **number of lab procedures**, and **discharge disposition** are key drivers of readmission. The Logistic Regression model achieved a **Recall of 55%** for the readmitted class, making it a viable tool for screening high-risk patients for targeted interventions.
+This project aims to optimize hospital patient flow by predicting the likelihood of a patient being readmitted within 30 days of discharge. Using the "Diabetes 130-US hospitals" dataset, I developed machine learning models to identify high-risk patients. My analysis reveals that **number of inpatient visits**, **number of lab procedures**, and **discharge disposition** are key drivers of readmission. The Logistic Regression model achieved a **Recall of 55%** for the readmitted class, making it a viable tool for screening high-risk patients for targeted interventions.
 
 ## 2. Project Goals & Objectives
 *   **Primary Goal**: Build a predictive model to classify patients as "Readmitted < 30 days" or "Not Readmitted".
@@ -16,30 +16,30 @@ This project aims to optimize hospital patient flow by predicting the likelihood
 
 ## 4. Methodology
 ### 4.1 Data Preprocessing (`src/preprocessing.py`)
-*   **Missing Values**: Dropped columns with excessive missing data (`weight`, `payer_code`, `medical_specialty`). Imputed or dropped rows for minor missingness in demographics.
+*   **Missing Values**: I dropped columns with excessive missing data (`weight`, `payer_code`, `medical_specialty`) and imputed or dropped rows for minor missingness in demographics.
 *   **Categorical Grouping**: 
-    *   Regrouped `discharge_disposition_id` and `admission_source_id` into broader categories (e.g., "Home", "Transfer", "Emergency").
-    *   Mapped 700+ ICD-9 codes into 9 primary clinical categories (Circulatory, Respiratory, Diabetes, etc.).
-*   **Filtering**: Removed invalid gender entries and records with missing primary diagnoses.
+    *   I regrouped `discharge_disposition_id` and `admission_source_id` into broader categories (e.g., "Home", "Transfer", "Emergency").
+    *   I mapped 700+ ICD-9 codes into 9 primary clinical categories (Circulatory, Respiratory, Diabetes, etc.).
+*   **Filtering**: I removed invalid gender entries and records with missing primary diagnoses.
 
 ### 4.2 Feature Engineering (`src/features.py`)
-*   **Comorbidity Score**: Calculated a custom `comorbidity_count` based on unique disease categories across 3 diagnosis columns.
-*   **Age Encoding**: Converted age ranges (e.g., `[70-80)`) to numeric midpoints (e.g., `75`).
-*   **Encoding**: Applied One-Hot Encoding to categorical variables (Race, Insulin levels, Admission type, etc.) to make them suitable for logistic regression.
+*   **Comorbidity Score**: I calculated a custom `comorbidity_count` based on unique disease categories across 3 diagnosis columns.
+*   **Age Encoding**: I converted age ranges (e.g., `[70-80)`) to numeric midpoints (e.g., `75`).
+*   **Encoding**: I applied One-Hot Encoding to categorical variables (Race, Insulin levels, Admission type, etc.) to make them suitable for logistic regression.
 
 ### 4.3 Database Integration (`src/create_db.py`, `src/run_10_queries.py`)
 *   Processed data is loaded into a **SQLite database** (`hospital.db`).
-*   Developed a suite of **10 SQL queries** to perform granular analysis, such as:
+*   I developed a suite of **10 SQL queries** to perform granular analysis, such as:
     *   Readmission rates by age and gender.
     *   Utilization metrics (average lab procedures per readmission status).
     *   Patient stratification by insulin usage.
 
 ## 5. Modeling Approach
-We experimented with two primary classification algorithms:
+I experimented with two primary classification algorithms:
 
 1.  **Logistic Regression**
     *   **Configuration**: `class_weight='balanced'` was used to address the severe class imbalance (Readmitted < 30 days is the minority class).
-    *   **Strength**: Highly interpretable; allows us to understand the directional effect of each feature (odds ratios).
+    *   **Strength**: Highly interpretable; allows me to understand the directional effect of each feature (odds ratios).
 
 2.  **Random Forest Classifier**
     *   **Configuration**: 100 Trees, `class_weight='balanced'`.
@@ -59,7 +59,7 @@ The dataset is imbalanced (~11% readmitted < 30 days). Thus, **Recall** and **F1
 *   The **Logistic Regression** successfully identified **55%** of actual readmissions. While this comes with false positives (low precision), it is the preferred model for a screening tool where missing a high-risk patient is more costly than intervening on a low-risk one.
 
 ### Key Drivers of Readmission
-Feature importance analysis highlighted the following top predictors:
+My feature importance analysis highlighted the following top predictors:
 1.  **Number of Inpatient Visits**: Frequent prior hospitalizations are the strongest predictor of future readmission.
 2.  **Discharge Disposition**: Patients discharged to rehab facilities or home health care have different risk profiles than those discharged home.
 3.  **Number of Diagnoses**: Higher complexity of conditions correlates with risk.
