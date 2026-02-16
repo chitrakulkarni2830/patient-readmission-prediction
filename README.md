@@ -22,6 +22,7 @@ A machine learning project to predict the probability of a patient being readmit
     - `create_db.py`: Loads data into a SQLite database for querying.
     - `run_10_queries.py`: Executes 10 SQL queries to generate insights from the database.
 - `output/`: Contains model evaluation reports and feature importance plots.
+- `REPORT.md`: Comprehensive project report with detailed methodology and results.
 
 ## How to Run
 1. Install dependencies:
